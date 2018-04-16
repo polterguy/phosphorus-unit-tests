@@ -110,7 +110,8 @@ create-widget:unit-tests
                             .file:x:/@_dp/#?name
                           p5.web.widgets.find-first:x:/@p5.web.widgets.find-first/*/*?value
                             element:ol
-                          set-widget-property:x:/-/*/*?value
+                          clear-widget:x:/-/*/*?value
+                          set-widget-property:x:/-2/*/*?value
                             visible:true
 
                           /*
@@ -193,5 +194,5 @@ create-widget:unit-tests
                           _:x:/../*/p5.types.date.now/[0,1]?value
                         eval-x:x:/+
                         micro.windows.info:@"{0} unit tests evaluated in {1:s\.fff} seconds"
-                          :x:/@load-file/*?count
+                          :x:/@load-file/*/*?count
                           :x:/./-2?value

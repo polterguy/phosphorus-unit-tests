@@ -861,7 +861,7 @@ Child widget properties can take expressions
     element
     class
     visible
-  p5.web.widgets.delete:sys42.tests.widget-52
+  p5.web.widgets.delete:sys42.tests.widget-51
   if:x:/@p5.web.widgets.property.get
     !=:node:@"p5.web.widgets.property.get
   sys42.tests.widget-52
