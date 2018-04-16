@@ -1,0 +1,13 @@
+/*
+ * Desktop widget.
+ */
+container
+  element:a
+  class:jumbo-button
+  title:Unit Tests for Phosphorus Five
+  widgets
+    span
+      innerValue:Unit Tests
+    literal
+      element:span
+      class:icon-eye

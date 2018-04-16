@@ -1,0 +1,197 @@
+/*
+ * File responsible for launching Unit Tests, which means creating the main widget, 
+ * and wire frame, for allowing a root account to verify the integrity of his system.
+ */
+
+
+
+
+
+/*
+ * Including Micro, serious skin, and adding Awesome Fonts.
+ */
+micro.css.include
+
+
+
+
+
+/*
+ * Creating main content container.
+ */
+create-widget:unit-tests
+  class:container
+  widgets
+    div
+      class:row
+      widgets
+        div
+          class:col-100
+          widgets
+            div
+              class:right
+              widgets
+                div
+                  class:strip toolbar
+                  widgets
+                    a
+                      href:/
+                      class:button
+                      role:button
+                      innerValue:@"<span class=""icon-home3""></span>"
+    div
+      class:row
+      widgets
+        div
+          class:col
+          widgets
+            div
+              class:shaded rounded air-inner
+              widgets
+                h3:unit-tests-header
+                  innerValue:Unit Tests
+                p
+                  innerValue:Run unit tests here, to verify the integrity of your system.
+                container
+                  element:ol
+                  oninit
+
+                    /*
+                     * Creating on "li" widget for each unit test in the system.
+                     */
+                    list-files:/modules/phosphorus-unit-tests/tests/
+                      filter:.hl
+                    for-each:x:/-/*?name
+                      split:x:/@_dp?value
+                        =:/
+                      create-widget
+                        parent:x:/../*/_event?value
+                        element:li
+                        .file:x:/@_dp?value
+                        widgets
+                          span
+                            innerValue:x:/@split/0/-?name
+                          container
+                            visible:false
+                            element:ol
+
+                div
+                  class:right
+                  widgets
+                    button
+                      innerValue:Run
+                      onclick
+
+                        /*
+                         * Timing tests.
+                         */
+                        p5.types.date.now
+
+                        /*
+                         * Listing all Unit Test files.
+                         */
+                        list-files:/modules/phosphorus-unit-tests/tests/
+                        load-file:x:/-/*?name
+
+                        /*
+                         * Tracking number of failed tests.
+                         */
+                        .no-failed:int:0
+
+                        /*
+                         * Evaluating all files.
+                         */
+                        for-each:x:/@load-file/*
+
+                          /*
+                           * Setting "ul" element for currently iterated test to visible.
+                           */
+                          p5.web.widgets.find-first
+                            .file:x:/@_dp/#?name
+                          p5.web.widgets.find-first:x:/@p5.web.widgets.find-first/*/*?value
+                            element:ol
+                          set-widget-property:x:/-/*/*?value
+                            visible:true
+
+                          /*
+                           * Looping through each test in file.
+                           */
+                          for-each:x:/@_dp/#/*
+
+                            /*
+                             * Try catch to make sure we are able to give feedback about status of test.
+                             */
+                            try
+
+                              /*
+                               * Evaluating test.
+                               */
+                              eval:x:/@_dp/#
+
+                              /*
+                               * Success!
+                               */
+                              create-widget
+                                parent:x:/@p5.web.widgets.find-first/*/*?value
+                                element:li
+                                innerValue:x:/@_dp/#?name
+                                style:"color:Green;"
+
+                            catch
+
+                              /*
+                               * Failure!
+                               */
+                              set:x:/@.no-failed?value
+                                +:x:/@.no-failed?value
+                                  _:int:1
+                              add:x:/+/**/.test
+                                src:x:/@_dp/#
+                              create-widget
+                                parent:x:/@p5.web.widgets.find-first/*/*?value
+                                element:li
+                                widgets
+                                  a
+                                    href:#
+                                    innerValue:x:/@_dp/#?name
+                                    style:"color:Red;"
+                                    onclick
+
+                                      /*
+                                       * Showing a modal window with the test content.
+                                       */
+                                      .test
+                                      lambda2hyper:x:/@.test/*
+                                      eval-x:x:/+/**/pre/*/innerValue
+                                      create-widgets
+                                        micro.widgets.modal
+                                          widgets
+                                            h3
+                                              innerValue:Contents of failed test
+                                            pre
+                                              innerValue:x:/@lambda2hyper?value
+
+                        /*
+                         * Checking if we had failed tests.
+                         */
+                        if:x:/@.no-failed?value
+                          =:int:0
+                          set-widget-property:unit-tests-header
+                            innerValue:Unit Tests - All tests passed!
+                            style:"color:Green;"
+                        else
+                          set-widget-property:unit-tests-header
+                            innerValue:Unit Tests - {0} failed!
+                              :x:/@.no-failed?value
+                            style:"color:Red;"
+
+                        /*
+                         * Timing tests.
+                         */
+                        p5.types.date.now
+                        -:x:/-?value
+                          _:x:/../*/p5.types.date.now/[0,1]?value
+                        eval-x:x:/+
+                        micro.windows.info:@"{0} unit tests evaluated in {1:s\.fff} seconds"
+                          :x:/@load-file/*?count
+                          :x:/./-2?value
