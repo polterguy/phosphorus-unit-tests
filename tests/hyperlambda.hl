@@ -1,0 +1,38 @@
+﻿
+/*
+ * Unit tests for [lambda2hyper] and [hyper2lambda].
+ */
+
+
+Removing and ignoring whitespace
+  _data:@"  /* Foo whitespace
+*
+    *
+           */
+/**/
+       //
+foo
+
+
+
+     
+   // Extra whitespace
+  bar   :   hello   
+
+
+
+        // FOO
+ /* sdouh dfouh fdouh fd */
+       /*
+         fdih fdoih fdoh df
+             */
+
+
+
+"
+  hyper2lambda:x:/@_data?value
+  if:x:/@hyper2lambda
+    !=:node:@"hyper2lambda
+  foo
+    bar:hello"
+    throw:Assert error, [hyper2lambda] misbehaved
