@@ -36,3 +36,52 @@ foo
   foo
     bar:hello"
     throw:Assert error, [hyper2lambda] misbehaved
+
+
+Comments are serialized 1
+  _data:@"// Some comment
+foo
+
+  // Another comment
+  bar"
+  hyper2lambda:x:/@_data?value
+    keep-comments:true
+  if:x:/@hyper2lambda
+    !=:node:@"hyper2lambda
+  ..comment:Some comment
+  foo
+    ..comment:Another comment
+    bar"
+    throw:Assert error, [hyper2lambda] misbehaved
+
+
+Comments are serialized 2
+  _data:@"/*
+  * Some multiline comment
+     * Next line
+        */
+foo
+
+// Another comment
+  bar
+
+foo
+
+    // Some node
+/*
+  * * sdfh sdfih dfgih dfg */
+  node:See comment"
+  hyper2lambda:x:/@_data?value
+    keep-comments:true
+  if:x:/@hyper2lambda
+    !=:node:@"hyper2lambda
+  ..comment:@""Some multiline comment
+Next line""
+  foo
+    ..comment:Another comment
+    bar
+  foo
+    ..comment:Some node
+    ..comment:* sdfh sdfih dfgih dfg
+    node:See comment"
+    throw:Assert error, [hyper2lambda] misbehaved
