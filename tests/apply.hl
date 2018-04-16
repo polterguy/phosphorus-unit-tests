@@ -1,4 +1,4 @@
-
+﻿
 /*
  * Unit tests for [apply].
  */
@@ -316,7 +316,7 @@ Event source returning node
 
 
 Dynamic event source returning node as children
-  create-event:sys42.tests.dynamic-apply-source
+  create-event:unit-tests.tests.dynamic-apply-source
     eval-x:x:/+/*
     return
       name:x:/@_dn/#?name
@@ -326,7 +326,7 @@ Dynamic event source returning node as children
   apply:x:/@_dest
     src:x:/@_data/*
     template
-      {@sys42.tests.dynamic-apply-source}
+      {@unit-tests.tests.dynamic-apply-source}
   if:x:/@_dest
     !=:node:@"_dest
   name:foo"
@@ -334,7 +334,7 @@ Dynamic event source returning node as children
 
 
 Dynamic event source returning multiple nodes with static arg
-  create-event:sys42.tests.dynamic-apply-source
+  create-event:unit-tests.tests.dynamic-apply-source
     eval-x:x:/+/*
     return
       name:x:/@_dn/#?name
@@ -346,7 +346,7 @@ Dynamic event source returning multiple nodes with static arg
   apply:x:/@_dest
     src:x:/@_data/*
     template
-      {@sys42.tests.dynamic-apply-source}:x:/@_static?value
+      {@unit-tests.tests.dynamic-apply-source}:x:/@_static?value
   if:x:/@_dest
     !=:node:@"_dest
   name:foo
@@ -355,7 +355,7 @@ Dynamic event source returning multiple nodes with static arg
 
 
 Dynamic event with arg source returning multiple nodes
-  create-event:sys42.tests.dynamic-apply-source
+  create-event:unit-tests.tests.dynamic-apply-source
     eval-x:x:/+/*
     return
       name:x:/@_dn/#?name
@@ -366,7 +366,7 @@ Dynamic event with arg source returning multiple nodes
   apply:x:/@_dest
     src:x:/@_data/*
     template
-      {@sys42.tests.dynamic-apply-source}
+      {@unit-tests.tests.dynamic-apply-source}
         _foo:some-arg
   if:x:/@_dest
     !=:node:@"_dest

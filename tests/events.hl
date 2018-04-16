@@ -1,11 +1,11 @@
-
+﻿
 /*
  * Unit tests for dynamically created Active Events.
  */
 
 
 Stateful event is stateful
-  create-event:sys42.tests.stateful-event
+  create-event:unit-tests.tests.stateful-event
     _static:node:"count:int:0"
     set:x:/@_static/#?value
       +:x:/@_static/#?value
@@ -13,52 +13,52 @@ Stateful event is stateful
     eval-x:x:/+
     return:Count {0}
       :x:/@_static/#?value
-  sys42.tests.stateful-event
-  sys42.tests.stateful-event
-  sys42.tests.stateful-event
-  if:x:/../*/sys42.tests.stateful-event/[0,1]?value
+  unit-tests.tests.stateful-event
+  unit-tests.tests.stateful-event
+  unit-tests.tests.stateful-event
+  if:x:/../*/unit-tests.tests.stateful-event/[0,1]?value
     !=:Count 1
-    or:x:/../*/sys42.tests.stateful-event/[1,2]?value
+    or:x:/../*/unit-tests.tests.stateful-event/[1,2]?value
       !=:Count 2
-    or:x:/../*/sys42.tests.stateful-event/[2,3]?value
+    or:x:/../*/unit-tests.tests.stateful-event/[2,3]?value
       !=:Count 3
     throw:Assert error, p5.events misbehaved
-  p5.events.delete:sys42.tests.stateful-event
+  p5.events.delete:unit-tests.tests.stateful-event
 
 
 Event can return nodes
-  create-event:sys42.tests.return-nodes
+  create-event:unit-tests.tests.return-nodes
     return
       foo:bar
-  sys42.tests.return-nodes
-  if:x:/@sys42.tests.return-nodes
-    !=:node:@"sys42.tests.return-nodes
+  unit-tests.tests.return-nodes
+  if:x:/@unit-tests.tests.return-nodes
+    !=:node:@"unit-tests.tests.return-nodes
   foo:bar"
     throw:Assert error, p5.events misbehaved
 
 
 Delete event
-  create-event:sys42.tests.event-2-delete
+  create-event:unit-tests.tests.event-2-delete
     return:foo
-  sys42.tests.event-2-delete
-  p5.events.delete:sys42.tests.event-2-delete
-  sys42.tests.event-2-delete
-  if:x:/../*/sys42.tests.event-2-delete/[0,1]?value
+  unit-tests.tests.event-2-delete
+  p5.events.delete:unit-tests.tests.event-2-delete
+  unit-tests.tests.event-2-delete
+  if:x:/../*/unit-tests.tests.event-2-delete/[0,1]?value
     !=:foo
-    or:x:/../*/sys42.tests.event-2-delete/[1,2]?value
+    or:x:/../*/unit-tests.tests.event-2-delete/[1,2]?value
     throw:Assert error, p5.events misbehaved
 
 
 Overwrite event
-  create-event:sys42.tests.overwrite-event
+  create-event:unit-tests.tests.overwrite-event
     return:foo1
-  sys42.tests.overwrite-event
-  create-event:sys42.tests.overwrite-event
+  unit-tests.tests.overwrite-event
+  create-event:unit-tests.tests.overwrite-event
     return:foo2
-  sys42.tests.overwrite-event
-  if:x:/../*/sys42.tests.overwrite-event/[0,1]?value
+  unit-tests.tests.overwrite-event
+  if:x:/../*/unit-tests.tests.overwrite-event/[0,1]?value
     !=:foo1
-    or:x:/../*/sys42.tests.overwrite-event/[1,2]?value
+    or:x:/../*/unit-tests.tests.overwrite-event/[1,2]?value
       !=:foo2
     throw:Assert error, p5.events misbehaved
 
@@ -90,35 +90,35 @@ Create protected event throws 2
 
 
 Lambda injection into event is not possible
-  create-event:sys42.tests.injection-test
+  create-event:unit-tests.tests.injection-test
     return
       foo:bar
-  sys42.tests.injection-test
+  unit-tests.tests.injection-test
     throw:Foo bar
-  if:x:/@sys42.tests.injection-test
-    !=:node:@"sys42.tests.injection-test
+  if:x:/@unit-tests.tests.injection-test
+    !=:node:@"unit-tests.tests.injection-test
   foo:bar"
     throw:Assert error, p5.events misbehaved
 
 
 Event does not return [_arg] expression
-  create-event:sys42.tests.no-return
+  create-event:unit-tests.tests.no-return
     return
       foo:bar
   _data:foo
-  sys42.tests.no-return:x:/../*/_data?value
-  if:x:/@sys42.tests.no-return
-    !=:node:@"sys42.tests.no-return
+  unit-tests.tests.no-return:x:/../*/_data?value
+  if:x:/@unit-tests.tests.no-return
+    !=:node:@"unit-tests.tests.no-return
   foo:bar"
     throw:Assert error, p5.events misbehaved
 
 
 Event does not return [_arg] constant
-  create-event:sys42.tests.no-return-2
+  create-event:unit-tests.tests.no-return-2
     return
       foo:bar
-  sys42.tests.no-return-2:foo
-  if:x:/@sys42.tests.no-return-2
-    !=:node:@"sys42.tests.no-return-2
+  unit-tests.tests.no-return-2:foo
+  if:x:/@unit-tests.tests.no-return-2
+    !=:node:@"unit-tests.tests.no-return-2
   foo:bar"
     throw:Assert error, p5.events misbehaved

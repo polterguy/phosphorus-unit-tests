@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Unit tests for [add].
  */
 
@@ -319,11 +319,11 @@ Active event returning single constant string
 
 
 Active event returning single constant node
-  create-event:sys42.tests.add.return-node
+  create-event:unit-tests.tests.add.return-node
     return:node:"foo:bar"
   _data
   add:x:/-
-    sys42.tests.add.return-node
+    unit-tests.tests.add.return-node
   if:x:/@_data
     !=:node:@"_data
   foo:bar"
@@ -331,13 +331,13 @@ Active event returning single constant node
 
 
 Active event returning multiple constant nodes
-  create-event:sys42.tests.add.return-nodes
+  create-event:unit-tests.tests.add.return-nodes
     return
       foo1:bar1
       foo2:bar2
   _data
   add:x:/-
-    sys42.tests.add.return-nodes
+    unit-tests.tests.add.return-nodes
   if:x:/@_data
     !=:node:@"_data
   foo1:bar1
@@ -346,11 +346,11 @@ Active event returning multiple constant nodes
 
 
 Active event returning string that converts into single node
-  create-event:sys42.tests.add.return-string
+  create-event:unit-tests.tests.add.return-string
     return:"foo:bar"
   _data
   add:x:/-
-    sys42.tests.add.return-string
+    unit-tests.tests.add.return-string
   if:x:/@_data
     !=:node:@"_data
   foo:bar"

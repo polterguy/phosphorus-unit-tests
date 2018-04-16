@@ -1,4 +1,4 @@
-
+﻿
 /*
  * Contains unit tests for [if], [else-if] and [else].
  */
@@ -982,18 +982,18 @@ Misc, event condition, yields true
 
 
 Misc, dynamic event condition, yields false
-  create-event:sys42.tests.branching-yields-false
+  create-event:unit-tests.tests.branching-yields-false
     return:bool:false
   if
-    sys42.tests.branching-yields-false
+    unit-tests.tests.branching-yields-false
     throw:Assert error, [if] misbehaved
 
 
 Misc, dynamic event condition, yields true
-  create-event:sys42.tests.branching-yields-true
+  create-event:unit-tests.tests.branching-yields-true
     return:bool:true
   if
-    sys42.tests.branching-yields-true
+    unit-tests.tests.branching-yields-true
   else
     throw:Assert error, [if] misbehaved
 

@@ -1,4 +1,4 @@
-
+﻿
 /*
  * Unit tests for [set]
  */
@@ -105,11 +105,11 @@ Set with Active Event source
 
 
 Set with dynamic Active Event source
-  create-event:sys42.tests.set-single-source
+  create-event:unit-tests.tests.set-single-source
     return:success
   _data
   set:x:/-?value
-    sys42.tests.set-single-source
+    unit-tests.tests.set-single-source
   if:x:/@_data?value
     !=:success
     throw:Assert error, [set] misbehaved

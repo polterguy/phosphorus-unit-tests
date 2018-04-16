@@ -1,4 +1,4 @@
-
+﻿
 /*
  * Unit tests for p5.data events, such as [p5.data.delete], [p5.data.insert] and [p5.data.select].
  */
@@ -10,36 +10,36 @@
 
 
 Insert simple static item
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:Thomas Hansen
   if
     fetch:x:/0/0?value
-      p5.data.select:x:/*/*/sys42.tests.insert/*/name?value
+      p5.data.select:x:/*/*/unit-tests.tests.insert/*/name?value
     !=:Thomas Hansen
     throw:Assert error, [p5.data.insert] misbehaved
 
 
 Insert items resulting from an expression
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   _items
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:Thomas Hansen
   p5.data.insert:x:/@_items/*
   if
     fetch:x:/0/0?value
-      p5.data.select:x:/*/*/sys42.tests.insert/*/name?value
+      p5.data.select:x:/*/*/unit-tests.tests.insert/*/name?value
     !=:Thomas Hansen
     throw:Assert error, [p5.data.insert] misbehaved
 
 
 Insert items returns affected items
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   _items
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:Thomas Hansen
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:John Doe
   p5.data.insert:x:/@_items/*
   if:x:/@p5.data.insert?value
@@ -49,13 +49,13 @@ Insert items returns affected items
 
 Insert same ID throws
   _success:bool:false
-  p5.data.delete:x:/*/*/sys42.tests.insert-1
-  p5.data.delete:x:/*/*/sys42.tests.insert-2
+  p5.data.delete:x:/*/*/unit-tests.tests.insert-1
+  p5.data.delete:x:/*/*/unit-tests.tests.insert-2
   try
     p5.data.insert
-      sys42.tests.insert-1:THIS_IS_THE_SAME_ID
+      unit-tests.tests.insert-1:THIS_IS_THE_SAME_ID
         name:Thomas Hansen
-      sys42.tests.insert-2:THIS_IS_THE_SAME_ID
+      unit-tests.tests.insert-2:THIS_IS_THE_SAME_ID
         name:John Doe
   catch
     set:x:/@_success?value
@@ -67,14 +67,14 @@ Insert same ID throws
 
 Insert same ID in different invocations throws
   _success:bool:false
-  p5.data.delete:x:/*/*/sys42.tests.insert-1
-  p5.data.delete:x:/*/*/sys42.tests.insert-2
+  p5.data.delete:x:/*/*/unit-tests.tests.insert-1
+  p5.data.delete:x:/*/*/unit-tests.tests.insert-2
   p5.data.insert
-    sys42.tests.insert-1:THIS_IS_THE_SAME_ID
+    unit-tests.tests.insert-1:THIS_IS_THE_SAME_ID
       name:Thomas Hansen
   try
     p5.data.insert
-      sys42.tests.insert-2:THIS_IS_THE_SAME_ID
+      unit-tests.tests.insert-2:THIS_IS_THE_SAME_ID
         name:John Doe
   catch
     set:x:/@_success?value
@@ -103,41 +103,41 @@ Insert empty name throws
 
 
 Update simple data value
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-  p5.data.update:x:/*/*/sys42.tests.insert/*/name?value
+  p5.data.update:x:/*/*/unit-tests.tests.insert/*/name?value
     src:bar
   if
     fetch:x:/0/0?value
-      p5.data.select:x:/*/*/sys42.tests.insert/*/name?value
+      p5.data.select:x:/*/*/unit-tests.tests.insert/*/name?value
     !=:bar
     throw:Assert error, [p5.data.update] misbehaved
 
 
 Update simple data name
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-  p5.data.update:x:/*/*/sys42.tests.insert/*/name?name
+  p5.data.update:x:/*/*/unit-tests.tests.insert/*/name?name
     src:bar
   if
     fetch:x:/0/0?name
-      p5.data.select:x:/*/*/sys42.tests.insert/0?name
+      p5.data.select:x:/*/*/unit-tests.tests.insert/0?name
     !=:bar
     throw:Assert error, [p5.data.update] misbehaved
 
 
 Update returns affected items
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-  p5.data.update:x:/*/*/sys42.tests.insert/*/name?value
+  p5.data.update:x:/*/*/unit-tests.tests.insert/*/name?value
     src:bar
   if:x:/@p5.data.update?value
     !=:int:2
@@ -145,16 +145,16 @@ Update returns affected items
 
 
 Update data does not change root node ID by default
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-  p5.data.select:x:/*/*/sys42.tests.insert
-  p5.data.update:x:/*/*/sys42.tests.insert
+  p5.data.select:x:/*/*/unit-tests.tests.insert
+  p5.data.update:x:/*/*/unit-tests.tests.insert
     src
-      sys42.tests.insert
+      unit-tests.tests.insert
         name:bar
-  p5.data.select:x:/*/*/sys42.tests.insert
+  p5.data.select:x:/*/*/unit-tests.tests.insert
   if:x:/../*/p5.data.select/[0,1]/*?value
     !=:x:/../*/p5.data.select/[1,2]/*?value
     or:x:/../*/p5.data.select/[0,1]/*?value
@@ -163,16 +163,16 @@ Update data does not change root node ID by default
 
 
 Update data can change root node ID
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-  p5.data.select:x:/*/*/sys42.tests.insert
-  p5.data.update:x:/*/*/sys42.tests.insert
+  p5.data.select:x:/*/*/unit-tests.tests.insert
+  p5.data.update:x:/*/*/unit-tests.tests.insert
     src
-      sys42.tests.insert:THIS_IS_A_BRAND_NEW_ID
+      unit-tests.tests.insert:THIS_IS_A_BRAND_NEW_ID
         name:bar
-  p5.data.select:x:/*/*/sys42.tests.insert
+  p5.data.select:x:/*/*/unit-tests.tests.insert
   if:THIS_IS_A_BRAND_NEW_ID
     !=:x:/../*/p5.data.select/[1,2]/*?value
     throw:Assert error, [p5.data.update] misbehaved
@@ -182,12 +182,12 @@ Update data throws when ID exists
   _success:bool:false
   p5.data.delete:x:/*/*/=THIS_IS_THE_SAME_ID
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-    sys42.tests.insert:THIS_IS_THE_SAME_ID
+    unit-tests.tests.insert:THIS_IS_THE_SAME_ID
       name:foo
   try
-    p5.data.update:x:/*/*/sys42.tests.insert/[0,1]
+    p5.data.update:x:/*/*/unit-tests.tests.insert/[0,1]
       src
         test.foo:THIS_IS_THE_SAME_ID
           name:bar
@@ -200,32 +200,32 @@ Update data throws when ID exists
 
 
 Update data with explicit same ID no throw
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert:THIS_IS_THE_SAME_ID
+    unit-tests.tests.insert:THIS_IS_THE_SAME_ID
       name:foo
-  p5.data.update:x:/*/*/sys42.tests.insert
+  p5.data.update:x:/*/*/unit-tests.tests.insert
     src
-      sys42.tests.insert:THIS_IS_THE_SAME_ID
+      unit-tests.tests.insert:THIS_IS_THE_SAME_ID
         name:bar
-  p5.data.select:x:/*/*/sys42.tests.insert
+  p5.data.select:x:/*/*/unit-tests.tests.insert
   if:x:/@p5.data.select/*?value
     !=:THIS_IS_THE_SAME_ID
     throw:Assert error, [p5.data.update] misbehaved
 
 
 Update multiple records keeps ID
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:foo
-  p5.data.update:x:/*/*/sys42.tests.insert
+  p5.data.update:x:/*/*/unit-tests.tests.insert
     src
-      sys42.tests.insert
+      unit-tests.tests.insert
         name:bar
-  p5.data.select:x:/*/*/sys42.tests.insert
+  p5.data.select:x:/*/*/unit-tests.tests.insert
   if:x:/@p5.data.insert/*?value
     !=:x:/@p5.data.select/*?value
     throw:Assert error, [p5.data.update] misbehaved
@@ -237,13 +237,13 @@ Update multiple records keeps ID
 
 
 Delete data returns affected items
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:Thomas Hansen
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:John Doe
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   if:x:/@p5.data.delete?value
     !=:int:2
     throw:Assert error, [p5.data.delete] misbehaved
@@ -251,7 +251,7 @@ Delete data returns affected items
 
 Delete data on file nodes throws
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:Thomas Hansen
   _success:bool:false
   try
@@ -282,13 +282,13 @@ Delete entire database throws
 
 
 Select count from database
-  p5.data.delete:x:/*/*/sys42.tests.insert
+  p5.data.delete:x:/*/*/unit-tests.tests.insert
   p5.data.insert
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:Thomas Hansen
-    sys42.tests.insert
+    unit-tests.tests.insert
       name:Thomas Hansen
-  p5.data.select:x:/*/*/sys42.tests.insert?count
+  p5.data.select:x:/*/*/unit-tests.tests.insert?count
   if:x:/@p5.data.select?value
     !=:int:2
     throw:Assert error, [p5.data.select] misbehaved
