@@ -56,6 +56,11 @@ create-widget:unit-tests
           .file:x:/@_dp/#?name
         p5.web.widgets.find-first:x:/@p5.web.widgets.find-first/*/*?value
           element:ol
+
+        /*
+         * Clearing widget, in case this is a consecutive run, and we've already created
+         * our list of tests.
+         */
         clear-widget:x:/-/*/*?value
         set-widget-property:x:/-2/*/*?value
           visible:true
