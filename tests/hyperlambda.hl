@@ -1,4 +1,3 @@
-﻿
 /*
  * Unit tests for [lambda2hyper] and [hyper2lambda].
  */
@@ -38,7 +37,7 @@ foo
     throw:Assert error, [hyper2lambda] misbehaved
 
 
-Comments are serialized 1
+Comments are kept 1
   _data:@"// Some comment
 foo
 
@@ -55,33 +54,124 @@ foo
     throw:Assert error, [hyper2lambda] misbehaved
 
 
-Comments are serialized 2
-  _data:@"/*
-  * Some multiline comment
-     * Next line
-        */
-foo
+Comments are kept 2
+  _data:@"root
+  /*
+   * Some multiline comment  
+   * Next line  
+   */
+  foo
 
-// Another comment
-  bar
+    // Another comment
+    bar
+    // Even more comment
 
-foo
+  foo
 
     // Some node
-/*
-  * * sdfh sdfih dfgih dfg */
-  node:See comment"
+    /*
+    * * sdfh sdfih dfgih dfg   
+    *    hello     
+    */
+    node:See comment
+  /*
+   * More comments.
+   */
+// Last comment"
   hyper2lambda:x:/@_data?value
     keep-comments:true
   if:x:/@hyper2lambda
     !=:node:@"hyper2lambda
-  ..comment:@""Some multiline comment
+  root
+    ..comment:@""Some multiline comment
 Next line""
+    foo
+      ..comment:Another comment
+      bar
+      ..comment:Even more comment
+    foo
+      ..comment:Some node
+      ..comment:@""* sdfh sdfih dfgih dfg
+   hello""
+      node:See comment
+    ..comment:More comments.
+  ..comment:Last comment
+"
+    throw:Assert error, [hyper2lambda] misbehaved
+
+
+Comments are kept 1
+  _data:@"// Some comment
+foo
+
+  // Another comment
+  bar"
+  hyper2lambda:x:/@_data?value
+    keep-comments:true
+  if:x:/@hyper2lambda
+    !=:node:@"hyper2lambda
+  ..comment:Some comment
   foo
     ..comment:Another comment
-    bar
+    bar"
+    throw:Assert error, [hyper2lambda] misbehaved
+
+
+Comments are unrolled
+  _data:@"root
+  /*
+   * Some multiline comment  
+   * Next line  
+   */
   foo
-    ..comment:Some node
-    ..comment:* sdfh sdfih dfgih dfg
-    node:See comment"
+
+    // Another comment
+    bar
+    // Even more comment
+
+  foo
+
+    // Some node
+    /*
+    * * sdfh sdfih dfgih dfg   
+    *    hello     
+    */
+    node:See comment
+  /*
+   * More comments.
+   */
+// Last comment"
+  hyper2lambda:x:/@_data?value
+    keep-comments:true
+  lambda2hyper:x:/-
+    comments:unroll
+  if:x:/@lambda2hyper?value
+    !=:@"hyper2lambda
+  root
+
+
+    /*
+     * Some multiline comment
+     * Next line
+     */
+    foo
+
+      // Another comment
+      bar
+
+      // Even more comment
+    foo
+
+      // Some node
+
+
+      /*
+       * * sdfh sdfih dfgih dfg
+       * hello
+       */
+      node:See comment
+
+    // More comments.
+
+  // Last comment"
     throw:Assert error, [hyper2lambda] misbehaved
